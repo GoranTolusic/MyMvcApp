@@ -1,4 +1,4 @@
-# MyMvcApp
+# MyMvcApp (Simple minimalistic mvc crud app on top of asp.net core framework)
 
 1. Create .env file and fill it with environment variables (see .env.example)
 2. Setup connection strings in appsettings.json (make sure db creds are valid and corresponding to those in .env)
