@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Vehicle";
+    var vehicleModel = (VehicleModel)ViewData["VehicleModel"];
+}
+
+<div class="text-center">
+    <h1 class="display-4">Get</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@vehicleModel.Name</h5>
+                <h5 class="card-title">Vehicle: @vehicleModel.Vehicle.Name</h5>
+            </div>
+        </div>
+        <form id="deleteForm" method="post" action="/VehicleModel/Delete/@vehicleModel.Id">
+            <button type="submit" class="btn btn-danger">Delete Model</button>
+        </form>
+        <br>
+        <form id="updateForm" method="get" action="/VehicleModel/UpdateForm/@vehicleModel.Id">
+            <button type="submit" class="btn btn-danger">Update Model</button>
+        </form>
+    </div>
+</div>

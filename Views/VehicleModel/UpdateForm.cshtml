@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Vehicle";
+    var vehicleModel = (VehicleModel)ViewData["VehicleModel"];
+}
+
+<div class="text-center">
+    <h1 class="display-4">UpdateForm</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <form action="/VehicleModel/Update/@vehicleModel.Id" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" maxlength="255" required value="@vehicleModel.Name">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
