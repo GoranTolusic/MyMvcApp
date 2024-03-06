@@ -20,38 +20,38 @@ public class VehicleModelController : Controller
         _service = vehicleModelService;
     }
 
-    [HttpPost("VehicleModel/Create")]
-    public IActionResult Create()
+    [HttpPost]
+    public IActionResult Create(VehicleModel model)
     {
-        VarDumper.Dump("u create post requestu");
-        string name = HttpContext.Request.Form["name"];
-        int vehicleId = int.Parse(HttpContext.Request.Form["vehicleId"]);
-        var result = _service.Create(name, vehicleId);
-        return Redirect("/Vehicle/Get/" + vehicleId);
+        if (ModelState.IsValid) {
+            _service.Create(model);
+            return Redirect("/VehicleModel/Filter/");
+        }
+        
+        return View(model);
     }
 
     [HttpGet("VehicleModel/UpdateForm/{id}")]
     public IActionResult UpdateForm(int id)
     {
-        VarDumper.Dump("u update form requestu");
         var result = _service.Get(id);
         ViewData["VehicleModel"] = result;
-        return View();
+        return View(result);
     }
 
-    [HttpPost("VehicleModel/Update/{id}")]
-    public IActionResult Update(int id)
+    [HttpPost()]
+    public IActionResult Update(VehicleModel vehicleModel)
     {
-        VarDumper.Dump("u update requestu");
-        string name = HttpContext.Request.Form["name"];
-        var result = _service.Update(name, id);
-        return Redirect("/VehicleModel/Get/" + id);
+        if (ModelState.IsValid) {
+            _service.Update(vehicleModel);
+            return Redirect("/VehicleModel/Get/" + vehicleModel.Id);
+        }
+        return View(vehicleModel);
     }
 
     [HttpPost("VehicleModel/Delete/{id}")]
     public IActionResult Delete(int id)
     {
-        VarDumper.Dump("u delete requestu");
         _service.Delete(id);
         return Redirect("/VehicleModel/Filter");
     }
@@ -69,37 +69,9 @@ public class VehicleModelController : Controller
     }
 
     [HttpGet("VehicleModel/Filter")]
-    public IActionResult Filter()
+    public IActionResult Filter(FilterValidation filters)
     {
-        string searchTerm = HttpContext.Request.Query["searchTerm"];
-        string sortBy = HttpContext.Request.Query["sortBy"];
-
-        // Default values for pageNumber and pageSize
-        int pageNumber = 0;
-        int pageSize = 10;
-        int vehicleId = 0;
-
-        // Check if the query parameters exist before parsing
-        if (!string.IsNullOrEmpty(HttpContext.Request.Query["pageNumber"]))
-        {
-            int.TryParse(HttpContext.Request.Query["pageNumber"], out pageNumber);
-        }
-
-        if (!string.IsNullOrEmpty(HttpContext.Request.Query["pageSize"]))
-        {
-            int.TryParse(HttpContext.Request.Query["pageSize"], out pageSize);
-        }
-
-        if (!string.IsNullOrEmpty(HttpContext.Request.Query["vehicleId"]))
-        {
-            int.TryParse(HttpContext.Request.Query["vehicleId"], out pageSize);
-        }
-
-        VarDumper.Dump(pageSize);
-        VarDumper.Dump(pageNumber);
-
-        var results = _service.Filter(pageNumber, pageSize, sortBy, searchTerm, vehicleId);
-
+        var results = _service.Filter(filters);
         ViewData["VehicleModels"] = results;
         return View();
     }

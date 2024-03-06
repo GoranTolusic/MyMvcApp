@@ -2,12 +2,15 @@
     ViewData["Title"] = "Vehicle";
 }
 
-@model VehicleModel
+@model VehicleMake
 
-@using (Html.BeginForm("Update", "VehicleModel", FormMethod.Post))
+@using (Html.BeginForm("Update", "VehicleMake", FormMethod.Post))
 {
     @Html.TextBoxFor(model => model.Name)
     @Html.ValidationMessageFor(model => model.Name)
+
+    @Html.TextBoxFor(model => model.Year)
+    @Html.ValidationMessageFor(model => model.Year)
 
     @Html.HiddenFor(model => model.Id)
 

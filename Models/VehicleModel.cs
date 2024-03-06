@@ -10,15 +10,15 @@ namespace MyMvcApp
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Column("Name")]
         public string Name { get; set; }
 
-         [Column("VehicleId")]
-        public int VehicleId { get; set; }
+         [Column("VehicleMakeId")]
+        public int? VehicleMakeId { get; set; }
 
-        public Vehicle Vehicle { get; set; }
+        public VehicleMake? VehicleMake { get; set; }
 
     }
 }

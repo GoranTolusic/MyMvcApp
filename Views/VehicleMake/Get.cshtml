@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Vehicle";
+    var vehicle = (VehicleMake)ViewData["VehicleMake"];
+    @model VehicleModel
+}
+
+<div class="text-center">
+    <h1 class="display-4">Get</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@vehicle.Name</h5>
+                <p class="card-text">Year: @vehicle.Year</p>
+            </div>
+        </div>
+        <form id="deleteForm" method="post" action="/VehicleMake/Delete/@vehicle.Id">
+            <button type="submit" class="btn btn-danger">Delete Vehicle</button>
+        </form>
+        <br>
+        <form id="updateForm" method="get" action="/VehicleMake/UpdateForm/@vehicle.Id">
+            <button type="submit" class="btn btn-danger">Update Vehicle</button>
+        </form>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add new model for @vehicle.Name</h5>
+            </div>
+        </div>
+
+        
+        @using (Html.BeginForm("Create", "VehicleModel", FormMethod.Post))
+        {
+            @Html.TextBoxFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+
+            @Html.HiddenFor(model => model.VehicleMakeId)
+            @Html.ValidationMessageFor(model => model.VehicleMakeId)
+
+            <input type="submit" value="Dodaj  model" />
+        }
+
+        MODELS:<br>
+        @foreach (var vehicleModel in vehicle.VehicleModels)
+        {
+            <div class="text-center">
+
+                <h5 class="card-title">@vehicleModel.Name</h5>
+            </div>
+        }
+    </div>
+</div>

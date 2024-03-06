@@ -5,7 +5,7 @@ public class AddVehicleTable : Migration
 {
     public override void Up()
     {
-        Create.Table("Vehicles")
+        Create.Table("VehicleMakes")
             .WithColumn("Id").AsInt32().PrimaryKey().Identity()
             .WithColumn("Name").AsString(255).NotNullable()
             .WithColumn("Year").AsInt32();
@@ -13,6 +13,6 @@ public class AddVehicleTable : Migration
 
     public override void Down()
     {
-        Delete.Table("Vehicles");
+        Delete.Table("VehicleMakes");
     }
 }

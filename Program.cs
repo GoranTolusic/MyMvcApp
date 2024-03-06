@@ -7,7 +7,7 @@ DatabaseService.SetupDatabase();
 var builder = WebApplication.CreateBuilder(args);
 
 //Dodavanje VehicleService classe da bude injectable
-builder.Services.AddScoped<VehicleService>();
+builder.Services.AddScoped<VehicleMakeService>();
 builder.Services.AddScoped<VehicleModelService>();
 
 //Inicijalizacija db konekcija na postgres

@@ -6,54 +6,55 @@ using Microsoft.EntityFrameworkCore;
 using MyMvcApp;
 using System.Collections.Generic;
 
-public class VehicleModelService
+public class VehicleMakeService
 {
     private readonly PostgreDbContext _context;
 
-    public VehicleModelService(PostgreDbContext context)
+    public VehicleMakeService(PostgreDbContext context)
     {
         _context = context;
     }
 
-    public VehicleModel Create(VehicleModel vehicleModel)
+    public VehicleMake Create(VehicleMake vehicleMake)
     {
-        this._context.Add(vehicleModel);
+        this._context.Add(vehicleMake);
         this._context.SaveChanges();
-        return vehicleModel;
+        return vehicleMake;
     }
 
-    public VehicleModel Get(int id)
+    public VehicleMake Get(int id)
     {
-        var getModel = this._context.VehicleModel
-            .Include(a => a.VehicleMake)
+        var getOneVehicleMakeWithModels = this._context.VehicleMake
+            .Include(a => a.VehicleModels)
             .ToList()
             .SingleOrDefault(a => a.Id == id);
-        return getModel;
+        return getOneVehicleMakeWithModels;
     }
 
     public void Delete(int id)
     {
-        var model = this._context.VehicleModel.Find(id);
-        if (model != null)
+        var vehicleMake = this._context.VehicleMake.Find(id);
+        if (vehicleMake != null)
         {
-            // Remove the vehicle model from the database context
-            this._context.VehicleModel.Remove(model);
+            // Remove the vehicle from the database context
+            this._context.VehicleMake.Remove(vehicleMake);
             this._context.SaveChanges();
         }
     }
 
-    public VehicleModel Update(VehicleModel vehicleModel)
+    public VehicleMake Update(VehicleMake vehicleMakeFromRequest)
     {
-        var model = this._context.VehicleModel.Find(vehicleModel.Id);
-        if (model != null)
+        var vehicleMake = this._context.VehicleMake.Find(vehicleMakeFromRequest.Id);
+        if (vehicleMake != null)
         {
-            model.Name = vehicleModel.Name;
+            vehicleMake.Name = vehicleMakeFromRequest.Name;
+            vehicleMake.Year = vehicleMakeFromRequest.Year;
             this._context.SaveChanges();
         }
-        return model;
+        return vehicleMake;
     }
 
-    public List<VehicleModel> Filter(FilterValidation filters)
+    public List<VehicleMake> Filter(FilterValidation filters)
     {
         int skipCalucation;
 
@@ -66,15 +67,10 @@ public class VehicleModelService
             skipCalucation = (filters.pageNumber - 1) * filters.pageSize;
         }
 
-        var query = this._context.VehicleModel.AsQueryable();
+        var query = this._context.VehicleMake.AsQueryable();
         if (!string.IsNullOrEmpty(filters.searchTerm))
         {
             query = query.Where(e => e.Name.Contains(filters.searchTerm));
-        }
-
-        if (filters.VehicleMakeId != null && filters.VehicleMakeId > 0)
-        {
-            query = query.Where(e => e.VehicleMakeId == filters.VehicleMakeId);
         }
 
         if (!string.IsNullOrEmpty(filters.sortBy))

@@ -8,12 +8,12 @@ public class AddVehicleModelTable : Migration
     {
         Create.Table("VehicleModels")
             .WithColumn("Id").AsInt32().PrimaryKey().Identity()
-            .WithColumn("VehicleId").AsInt32()
+            .WithColumn("VehicleMakeId").AsInt32()
             .WithColumn("Name").AsString(255);
 
-        Create.ForeignKey("FK_VehicleModel_Vehicle")
-            .FromTable("VehicleModels").ForeignColumn("VehicleId")
-            .ToTable("Vehicles").PrimaryColumn("Id")
+        Create.ForeignKey("FK_VehicleModel_VehicleMake")
+            .FromTable("VehicleModels").ForeignColumn("VehicleMakeId")
+            .ToTable("VehicleMakes").PrimaryColumn("Id")
             .OnDelete(Rule.Cascade);
     }
 

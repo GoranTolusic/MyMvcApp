@@ -1,0 +1,12 @@
+@model VehicleMake
+
+@using (Html.BeginForm("Create", "VehicleMake", FormMethod.Post))
+{
+    @Html.TextBoxFor(model => model.Name)
+    @Html.ValidationMessageFor(model => model.Name)
+
+    @Html.TextBoxFor(model => model.Year)
+    @Html.ValidationMessageFor(model => model.Year)
+
+    <input type="submit" value="Pošalji" />
+}
