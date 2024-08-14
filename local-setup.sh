@@ -6,9 +6,23 @@ POSTGRE="postgreDB"
 
 function is_port_in_use() {
     local port=$1
+    sudo apt-get update
+    sudo apt-get install net-tools
+
     if sudo netstat -tuln | grep -q ":$port"; then
-        echo "Port $port is already in use."
-        exit 1
+        echo "Port $port is already in use. "
+
+        # Check if postgre is already running as container and stop it
+        container_id=$(sudo docker ps | grep "postgres" | awk '{print $1}')
+        if [ -n "$container_id" ]; then
+            echo "Stopping container with ID: $container_id"
+            sudo docker stop $container_id
+            sudo docker container prune -f
+        else
+            echo "There are no active container with 'postgres'."
+        fi
+
+        #exit 1
     fi
 }
 
